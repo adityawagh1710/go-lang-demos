@@ -43,9 +43,13 @@ func main() {
 		}
 	}
 
-	fmt.Println("Assigned Goroutines:", *workers)
+	fmt.Println("Assigned workers:", *workers)
+
+	fmt.Println("Before loading NumGoroutine:", runtime.NumGoroutine())
 
 	index := loader.LoadWithWorkerPool(files, *workers)
+
+	fmt.Println("After loading NumGoroutine:", runtime.NumGoroutine())
 
 	if val, ok := index[*txn]; ok {
 		fmt.Println("Record found")

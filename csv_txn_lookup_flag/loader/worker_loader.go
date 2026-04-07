@@ -2,8 +2,10 @@ package loader
 
 import (
 	"encoding/csv"
+	"fmt"
 	"log"
 	"os"
+	"runtime"
 	"sync"
 
 	"csv_txn_lookup_flag/model"
@@ -23,22 +25,6 @@ func LoadWithWorkerPool(files []string, workerCount int) map[string]model.Paymen
 
 	recordCh := make(chan Record, 1000)
 	var wg sync.WaitGroup
-
-	for range workerCount {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for r := range recordCh {
-				mu.Lock()
-				result[r.Txn] = model.Payment{
-					RefNo:       r.Ref,
-					PaymentInfo: r.Info,
-					FileName:    r.FileName,
-				}
-				mu.Unlock()
-			}
-		}()
-	}
 
 	var fileWeightGroup sync.WaitGroup
 
@@ -76,7 +62,25 @@ func LoadWithWorkerPool(files []string, workerCount int) map[string]model.Paymen
 				}
 			}
 		}(f)
+
+		for range workerCount {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				for r := range recordCh {
+					mu.Lock()
+					result[r.Txn] = model.Payment{
+						RefNo:       r.Ref,
+						PaymentInfo: r.Info,
+						FileName:    r.FileName,
+					}
+					mu.Unlock()
+				}
+			}()
+		}
 	}
+
+	fmt.Println("Current loading NumGoroutine:", runtime.NumGoroutine())
 
 	fileWeightGroup.Wait()
 	close(recordCh)
