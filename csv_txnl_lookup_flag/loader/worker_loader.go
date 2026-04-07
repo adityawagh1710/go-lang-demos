@@ -10,9 +10,10 @@ import (
 )
 
 type Record struct {
-	Txn  string
-	Ref  string
-	Info string
+	Txn      string
+	Ref      string
+	Info     string
+	FileName string
 }
 
 func LoadWithWorkerPool(files []string, workerCount int) map[string]model.Payment {
@@ -32,6 +33,7 @@ func LoadWithWorkerPool(files []string, workerCount int) map[string]model.Paymen
 				result[r.Txn] = model.Payment{
 					RefNo:       r.Ref,
 					PaymentInfo: r.Info,
+					FileName:    r.FileName,
 				}
 				mu.Unlock()
 			}
@@ -67,9 +69,10 @@ func LoadWithWorkerPool(files []string, workerCount int) map[string]model.Paymen
 				}
 
 				recordCh <- Record{
-					Txn:  rec[0],
-					Ref:  rec[1],
-					Info: rec[2],
+					Txn:      rec[0],
+					Ref:      rec[1],
+					Info:     rec[2],
+					FileName: filePath,
 				}
 			}
 		}(f)

@@ -29,6 +29,12 @@ func main() {
 
 	maxWorkers := runtime.NumCPU() * 2
 
+	fmt.Println("CPU workers ", maxWorkers)
+
+	fmt.Println("Initial workers ", *workers)
+
+	fmt.Println("Files:", len(files))
+
 	if *workers == 0 {
 		if len(files) < maxWorkers {
 			*workers = len(files)
@@ -37,15 +43,16 @@ func main() {
 		}
 	}
 
-	fmt.Println("Files:", len(files))
-
-	fmt.Println("Workers:", *workers)
+	fmt.Println("Assigned Goroutines:", *workers)
 
 	index := loader.LoadWithWorkerPool(files, *workers)
 
 	if val, ok := index[*txn]; ok {
-		fmt.Println("Found:", val.RefNo, val.PaymentInfo)
+		fmt.Println("Record found")
+		fmt.Println("Ref:", val.RefNo)
+		fmt.Println("Info:", val.PaymentInfo)
+		fmt.Println("File:", val.FileName)
 	} else {
-		fmt.Println("Not found")
+		fmt.Println("Record not found")
 	}
 }
