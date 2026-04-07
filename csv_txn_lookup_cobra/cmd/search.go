@@ -3,6 +3,7 @@ package cmd
 import (
 	"csv_txn_lookup/loader"
 	"fmt"
+	"runtime"
 
 	"github.com/spf13/cobra"
 )
@@ -24,8 +25,14 @@ var searchCmd = &cobra.Command{
 
 		cmd.Println("Initial workers", workers)
 
+		maxWorkers := runtime.NumCPU() * 2
+
 		if workers == 0 {
-			workers = len(files)
+			if len(files) < maxWorkers {
+				workers = len(files)
+			} else {
+				workers = maxWorkers
+			}
 		}
 
 		cmd.Println("Workers after len", workers)
