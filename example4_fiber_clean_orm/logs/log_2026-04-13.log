@@ -1,0 +1,22 @@
+{"level":"info","time":"2026-04-13T14:49:20+05:30","message":"Server starting..."}
+{"level":"info","time":"2026-04-13T14:49:58+05:30","message":"Server starting..."}
+{"level":"info","request_id":"9581fa25-c931-48dc-b9ee-533d82b18e62","method":"POST","path":"/api/users","status":200,"latency":10.835518,"ip":"127.0.0.1","time":"2026-04-13T14:50:18+05:30","message":"request"}
+{"level":"info","request_id":"287a42ad-7823-4108-a50d-9427f58f5912","method":"GET","path":"/api/users","status":200,"latency":0.457339,"ip":"127.0.0.1","time":"2026-04-13T14:50:22+05:30","message":"request"}
+{"level":"info","request_id":"15f7763b-93ee-465f-a54d-7cbe30b35c3b","method":"GET","path":"/api/users/3","status":200,"latency":1.088229,"ip":"127.0.0.1","time":"2026-04-13T14:50:27+05:30","message":"request"}
+{"level":"info","request_id":"17d2a447-df8f-4501-9d92-39b0e242e69f","method":"PUT","path":"/api/users/1","status":200,"latency":10.723239,"ip":"127.0.0.1","time":"2026-04-13T14:50:37+05:30","message":"request"}
+{"level":"info","request_id":"a1578c12-6405-4719-aa2d-8f31401f78b4","method":"GET","path":"/api/users","status":200,"latency":0.29981,"ip":"127.0.0.1","time":"2026-04-13T14:50:42+05:30","message":"request"}
+{"level":"info","request_id":"18ba254d-561b-474e-a3f0-d4f21eb26100","method":"PUT","path":"/api/users/1","status":200,"latency":10.588105,"ip":"127.0.0.1","time":"2026-04-13T14:50:50+05:30","message":"request"}
+{"level":"info","request_id":"eb0503ac-86af-41c5-b6b5-4d72ad154ff4","method":"GET","path":"/api/users","status":200,"latency":0.308599,"ip":"127.0.0.1","time":"2026-04-13T14:50:53+05:30","message":"request"}
+{"level":"info","request_id":"23649c00-7320-4fb8-8ef4-ede8a2c6bed8","method":"POST","path":"/api/users","status":400,"latency":0.022262,"ip":"127.0.0.1","time":"2026-04-13T14:51:21+05:30","message":"request"}
+{"level":"info","request_id":"83697fb5-be03-46cb-8a4e-d8682fd3ca03","method":"POST","path":"/api/users","status":400,"latency":0.022368,"ip":"127.0.0.1","time":"2026-04-13T14:51:39+05:30","message":"request"}
+{"level":"info","request_id":"5172031e-7566-4bdc-8e41-345f9f9ac0bc","method":"POST","path":"/api/users","status":400,"latency":0.729162,"ip":"127.0.0.1","time":"2026-04-13T14:52:45+05:30","message":"request"}
+{"level":"info","request_id":"b8a23660-b19e-4217-b524-32027fa9ea38","method":"POST","path":"/api/users","status":400,"latency":0.801116,"ip":"127.0.0.1","time":"2026-04-13T14:53:59+05:30","message":"request"}
+{"level":"info","request_id":"6103b96f-cc49-4b0c-9b36-d9d6367563de","method":"POST","path":"/api/users","status":400,"latency":0.735995,"ip":"127.0.0.1","time":"2026-04-13T14:54:07+05:30","message":"request"}
+{"level":"info","time":"2026-04-13T14:58:27+05:30","message":"Server starting..."}
+{"level":"info","request_id":"9824dc26-bca3-40df-af92-4b49ef40ac25","method":"POST","path":"/api/users","status":400,"latency":0.830851,"ip":"127.0.0.1","time":"2026-04-13T14:58:34+05:30","message":"request"}
+{"level":"info","request_id":"1315d446-2480-4302-a3c5-795e053e7c99","method":"GET","path":"/api/users","status":200,"latency":0.440342,"ip":"127.0.0.1","time":"2026-04-13T15:04:21+05:30","message":"request"}
+{"level":"info","request_id":"a9ca2e9e-c113-44cb-b3b6-7f77c1de84cc","method":"GET","path":"/api/users","status":200,"latency":0.331972,"ip":"127.0.0.1","time":"2026-04-13T15:04:22+05:30","message":"request"}
+{"level":"info","request_id":"6d279159-41fb-4642-8002-3862001ace2e","method":"GET","path":"/api/users/3","status":200,"latency":0.727794,"ip":"127.0.0.1","time":"2026-04-13T15:04:26+05:30","message":"request"}
+{"level":"info","request_id":"7a9c0148-2a18-491b-b35f-5db6aa56ebb6","method":"PUT","path":"/api/users/1","status":200,"latency":10.797916,"ip":"127.0.0.1","time":"2026-04-13T15:04:30+05:30","message":"request"}
+{"level":"info","request_id":"5d01ce16-b14d-49e5-b148-3a976c8ce2cc","method":"DELETE","path":"/api/users/7","status":200,"latency":10.336578,"ip":"127.0.0.1","time":"2026-04-13T15:04:46+05:30","message":"request"}
+{"level":"info","request_id":"3191328d-badb-47c9-8291-7c8006459645","method":"POST","path":"/api/users","status":200,"latency":10.440131,"ip":"127.0.0.1","time":"2026-04-13T15:04:55+05:30","message":"request"}
