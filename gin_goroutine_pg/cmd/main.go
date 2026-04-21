@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"project/internal/db"
 	"project/internal/handler"
 
@@ -15,5 +16,7 @@ func main() {
 	// Test url ab -n 1000 -c 50 http://127.0.0.1:8080/users/1
 	r.GET("/users/:id", handler.GetUser)
 
-	r.Run(":8080")
+	if err := r.Run(":8080"); err != nil {
+		log.Fatalf("failed to start server: %v", err)
+	}
 }
