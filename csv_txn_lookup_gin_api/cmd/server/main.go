@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"csv-txn-lookup-gin-api/internal/handler"
 	"csv-txn-lookup-gin-api/internal/middleware"
 	"csv-txn-lookup-gin-api/internal/router"
@@ -22,7 +24,15 @@ func main() {
 
 	router.TxnLookupRoutes(v1)
 
-	server.SetTrustedProxies([]string{"127.0.0.1", "::1"})
-	server.RunTLS(":443", "cert.pem", "key.pem")
-	server.Run(":8080")
+	if err := server.SetTrustedProxies([]string{"127.0.0.1", "::1"}); err != nil {
+		log.Fatalf("failed to set trusted proxies: %v", err)
+	}
+
+	// Try TLS first, fall back to plain HTTP
+	if err := server.RunTLS(":443", "cert.pem", "key.pem"); err != nil {
+		log.Printf("TLS unavailable (%v), falling back to HTTP on :8080", err)
+		if err := server.Run(":8080"); err != nil {
+			log.Fatalf("failed to start server: %v", err)
+		}
+	}
 }

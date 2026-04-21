@@ -1,3 +1,3 @@
 module csv_txn_lookup_context
 
-go 1.22.0
+go 1.26.2

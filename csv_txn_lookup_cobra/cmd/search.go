@@ -55,5 +55,7 @@ func init() {
 	// By command line
 	// searchCmd.Flags().IntVarP(&workers, "workers", "w", 0, "Worker count")
 
-	searchCmd.MarkFlagRequired("txn")
+	if err := searchCmd.MarkFlagRequired("txn"); err != nil {
+		panic(err)
+	}
 }

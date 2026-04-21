@@ -28,7 +28,9 @@ func main() {
 
 	config.ConnectDB()
 
-	config.DB.AutoMigrate(&models.User{})
+	if err := config.DB.AutoMigrate(&models.User{}); err != nil {
+		log.Fatalf("failed to run migrations: %v", err)
+	}
 
 	userRepo := repository.NewUserRepository(config.DB)
 

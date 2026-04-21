@@ -12,7 +12,7 @@ var Log zerolog.Logger
 
 func InitLogger() {
 	logDir := "logs"
-	_ = os.MkdirAll(logDir, os.ModePerm)
+	_ = os.MkdirAll(logDir, 0750)
 
 	// File naming (daily)
 	fileName := logDir + "/log_" + time.Now().Format("2006-01-02") + ".log"

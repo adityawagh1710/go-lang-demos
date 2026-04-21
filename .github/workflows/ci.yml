@@ -1,0 +1,161 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  # ─────────────────────────────────────────────
+  # 1. TEST — run go test for every module
+  # ─────────────────────────────────────────────
+  test:
+    name: Test (${{ matrix.module }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - module: csv_txn_lookup_cobra
+            test_paths: ./loader/...
+          - module: csv_txn_lookup_context
+            test_paths: ./loader/...
+          - module: csv_txn_lookup_flag
+            test_paths: ./loader/...
+          - module: csv_txn_lookup_gin_api
+            test_paths: ./internal/loader/... ./internal/handler/...
+          - module: example4_fiber_clean_orm
+            test_paths: ./service/...
+          - module: gin_goroutine_pg
+            test_paths: ./internal/service/...
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ${{ matrix.module }}/go.mod
+          cache-dependency-path: ${{ matrix.module }}/go.sum
+
+      - name: Download dependencies
+        working-directory: ${{ matrix.module }}
+        run: go mod download
+
+      - name: Run tests
+        working-directory: ${{ matrix.module }}
+        run: go test -v -race -count=1 -coverprofile=coverage.out ${{ matrix.test_paths }}
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.module }}
+          path: ${{ matrix.module }}/coverage.out
+          retention-days: 7
+
+  # ─────────────────────────────────────────────
+  # 2. LINT — vet + staticcheck per module
+  # ─────────────────────────────────────────────
+  lint:
+    name: Lint (${{ matrix.module }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - csv_txn_lookup_cobra
+          - csv_txn_lookup_context
+          - csv_txn_lookup_flag
+          - csv_txn_lookup_gin_api
+          - example4_fiber_clean_orm
+          - gin_goroutine_pg
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ${{ matrix.module }}/go.mod
+          cache-dependency-path: ${{ matrix.module }}/go.sum
+
+      - name: go vet
+        working-directory: ${{ matrix.module }}
+        run: go vet ./...
+
+      - name: Install staticcheck
+        run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+      - name: staticcheck
+        working-directory: ${{ matrix.module }}
+        run: staticcheck ./...
+
+  # ─────────────────────────────────────────────
+  # 3. SECURITY — govulncheck (known CVEs)
+  # ─────────────────────────────────────────────
+  vuln-check:
+    name: Vuln Check (${{ matrix.module }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - csv_txn_lookup_cobra
+          - csv_txn_lookup_context
+          - csv_txn_lookup_flag
+          - csv_txn_lookup_gin_api
+          - example4_fiber_clean_orm
+          - gin_goroutine_pg
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ${{ matrix.module }}/go.mod
+          cache-dependency-path: ${{ matrix.module }}/go.sum
+
+      - name: Install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@latest
+
+      - name: Run govulncheck
+        working-directory: ${{ matrix.module }}
+        run: govulncheck ./...
+
+  # ─────────────────────────────────────────────
+  # 4. SECURITY — gosec (SAST / code patterns)
+  # ─────────────────────────────────────────────
+  gosec:
+    name: Gosec (${{ matrix.module }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - csv_txn_lookup_cobra
+          - csv_txn_lookup_context
+          - csv_txn_lookup_flag
+          - csv_txn_lookup_gin_api
+          - example4_fiber_clean_orm
+          - gin_goroutine_pg
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ${{ matrix.module }}/go.mod
+          cache-dependency-path: ${{ matrix.module }}/go.sum
+
+      - name: Install gosec
+        run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+      - name: Run gosec
+        working-directory: ${{ matrix.module }}
+        # G304 (file path from variable) is expected in CSV loaders — suppress it
+        run: gosec -exclude=G304 ./...
+
+
