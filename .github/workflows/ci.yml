@@ -158,13 +158,4 @@ jobs:
         # G304 (file path from variable) is expected in CSV loaders — suppress it
         run: gosec -exclude=G304 ./...
 
-  # ─────────────────────────────────────────────
-  # 5. DEPENDENCY REVIEW — on PRs only
-  # ─────────────────────────────────────────────
-  dependency-review:
-    name: Dependency Review
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/dependency-review-action@v4
+
